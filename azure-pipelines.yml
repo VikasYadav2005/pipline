@@ -24,10 +24,3 @@ steps:
       python -m unittest discover tests
     displayName: 'Run Unit Tests'
 
-  - task: PublishTestResults@2
-    condition: succeededOrFailed()
-    inputs:
-      testResultsFormat: 'JUnit'
-      testResultsFiles: '**/test-results.xml'
-      failTaskOnMissingResultsFile: false
-      testRunTitle: 'Python Unit Tests'
