@@ -1,20 +1,33 @@
+
 trigger:
-- main
+  branches:
+    include:
+      - main
 
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '3.9'
-    addToPath: true
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.10'
+      addToPath: true
 
-- script: |
-    python -m pip install --upgrade pip
-    pip install -r requirements.txt
-  displayName: 'Install dependencies'
+  - script: |
+      python -m venv venv
+      source venv/bin/activate
+      pip install -r requirements.txt
+    displayName: 'Install dependencies'
 
-- script: |
-    python main.py
-  displayName: 'Run Python script'
+  - script: |
+      source venv/bin/activate
+      python -m unittest discover
+    displayName: 'Run tests'
+
+  - task: PublishTestResults@2
+    condition: succeededOrFailed()
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '**/test-results.xml'
+      failTaskOnMissingResultsFile: true
+      testRunTitle: 'Python Unit Tests'
