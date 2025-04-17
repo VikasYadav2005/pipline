@@ -6,6 +6,9 @@ pool:
 
 steps:
 
+# Step 0: Checkout your repo (must-have!)
+- checkout: self
+
 # Step 1: Set up Python
 - task: UsePythonVersion@0
   inputs:
@@ -33,7 +36,7 @@ steps:
   inputs:
     testResultsFormat: 'JUnit'
     testResultsFiles: 'test-results/*.xml'
-    failTaskOnMissingResultsFile: false
+    failTaskOnMissingResultsFile: true
     testRunTitle: 'Python Unit Tests'
 
 # Step 5: Deploy to Azure Web App
