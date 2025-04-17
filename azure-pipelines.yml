@@ -21,7 +21,19 @@ steps:
     pip install unittest-xml-reporting
   displayName: 'Install dependencies'
 
+# Step 3: Run tests and output JUnit XML
+- script: |
+    source venv/bin/activate
+    python -m xmlrunner discover -s tests -o test-results
+  displayName: 'Run Unit Tests and Output JUnit XML'
 
+# Step 4: Publish test results to Azure DevOps
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: 'test-results/*.xml'
+    failTaskOnMissingResultsFile: false
+    testRunTitle: 'Python Unit Tests'
     
 - task: AzureWebApp@1
   inputs:
