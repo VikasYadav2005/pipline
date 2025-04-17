@@ -34,3 +34,9 @@ steps:
     testResultsFiles: 'test-results/*.xml'
     failTaskOnMissingResultsFile: false
     testRunTitle: 'Python Unit Tests'
+    
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'RupeshAzureConnection'         # Use the exact name you saved
+    appName: 'samplepythonapprupesh'
+    package: '$(System.DefaultWorkingDirectory)'
